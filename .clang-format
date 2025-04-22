@@ -1,0 +1,19 @@
+
+BasedOnStyle: Google
+IndentWidth: 2
+UseTab: Never
+ColumnLimit: 80
+AllowShortFunctionsOnASingleLine: true
+BreakBeforeBraces: Attach
+SpaceBeforeParens: ControlStatements
+SpacesBeforeTrailingComments: 1
+AllowAllParametersOfDeclarationOnNextLine: false
+SortIncludes: false
+Cpp11BracedListStyle: true
+BinPackArguments: false
+BinPackParameters: false
+AlignAfterOpenBracket: Align
+AlignOperands: false
+AlignTrailingComments: true
+BraceWrapping:
+  AfterControlStatement: false

@@ -19,9 +19,7 @@ endif()
 cmake_policy(SET CMP0167 NEW)
 
 # Find mayonaise
-find_package(nlohmann_json REQUIRED)
 find_package(Boost REQUIRED COMPONENTS system log filesystem)
-find_package(Bsoncxx REQUIRED)
 find_package(Doxygen)
 
 # Sources
@@ -53,18 +51,6 @@ if(Boost_FOUND)
 message(STATUS "Found package Boost")
 else()
     message(FATAL_ERROR "Package Boost not found")
-endif()
-
-if(nlohmann_json_FOUND)
-    message(STATUS "Found package nlohmann_json")
-else()
-    message(FATAL_ERROR "Package nlohmann_json not found")
-endif()
-
-if(Bsoncxx_FOUND)
-    message(STATUS "Found package Bsoncxx")
-else()
-    message(FATAL_ERROR "Package Bsoncxx not found")
 endif()
 
 # Doxygen config
@@ -122,7 +108,6 @@ target_compile_options(${PROJECT_NAME} PRIVATE
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     Boost::headers
-    bsoncxx
     pthread
 )
 

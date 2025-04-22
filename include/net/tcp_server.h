@@ -1,21 +1,19 @@
 #pragma once
 
+#include <boost/asio/io_context.hpp>
 #include <boost/asio/ip/tcp.hpp>
-#include <net/event/handler.h>
+#include "net/event/handler.h"
 
-using namespace boost;
-
-namespace flux::net {
+namespace flux {
 
 class TcpServer {
-public:
-  TcpServer(asio::io_context &context);
-
-private:
   void accept();
 
-  asio::ip::tcp::acceptor acceptor_;
-  asio::io_context &context_;
-};
+  boost::asio::ip::tcp::acceptor acceptor_;
+  net::event::EventHandler eventHandler_;
 
-} // namespace flux::net
+ public:
+  TcpServer(boost::asio::io_context& context,
+            net::event::EventHandler eventHandler);
+};
+} // namespace flux
