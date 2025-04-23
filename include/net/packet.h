@@ -1,8 +1,7 @@
 #pragma once
 
+#include <net/protocol/msg.h>
 #include <nlohmann/json.hpp>
-#include <queue>
-#include "net/protocol/msg.h"
 
 using namespace nlohmann;
 
@@ -20,8 +19,8 @@ class PacketBase {
   virtual void from(const json& j) { data = j; }
   virtual void from(const PacketBase& packet) { data = packet.data; }
 
-  virtual std::string getID() { return data[protocol::ID_KEY]; }
-  virtual json getData() { return data; }
+  virtual std::string getID() const { return data[protocol::ID_KEY]; }
+  virtual json getData() const { return data; }
 };
 
 class PacketQueue {

@@ -16,7 +16,7 @@ class EventContext {
   EventContext(boost::asio::ip::tcp::socket socket);
 
   asio::ip::address getAddress();  
-  asio::awaitable<void> sendPacketAsync(PacketBase& packet);
+  asio::awaitable<void> sendPacketAsync(const PacketBase& packet);
   asio::awaitable<nlohmann::json> recvPacketQueueAsync();
 };
 

@@ -1,5 +1,6 @@
 #include <net/event/context.h>
 
+#include <boost/asio/use_awaitable.hpp>
 #include <format>
 #include <print>
 #include <cstring>
@@ -12,18 +13,21 @@ namespace flux::net::event {
 EventContext::EventContext(asio::ip::tcp::socket socket)
     : socket(std::move(socket)) {
   // Init player from connection (somehow)
-  std::println("Initialized EventContext with client {}", this->socket.remote_endpoint().address().to_string());
+  std::println("Initialized EventContext with client {}",
+               this->socket.remote_endpoint().address().to_string());
 }
 
-asio::awaitable<void> EventContext::sendPacketAsync(PacketBase& packet) {
-  auto data = json::to_bson(packet.getData());
-  auto buf = std::make_shared<std::vector<uint8_t>>(data.size());
-  std::memcpy(buf->data(), data.data(), data.size());
+asio::awaitable<void> EventContext::sendPacketAsync(const PacketBase& packet) {
+  try {
+    auto data = json::to_bson(packet.getData());
+    auto buf = std::make_shared<std::vector<uint8_t>>(data.size());
+    std::memcpy(buf->data(), data.data(), data.size());
 
-  socket.async_write_some(asio::buffer(*buf),
-                          [](std::error_code ec, std::size_t) {
-                            if (ec) throw ec;
-                          });
+    // Асинхронная запись в сокет
+    co_await asio::async_write(socket, asio::buffer(*buf), asio::use_awaitable);
+  } catch (const std::exception& e) {
+    std::println("Error in sendPacketAsync: {}", e.what());
+  }
   co_return;
 }
 
@@ -34,8 +38,8 @@ asio::ip::address EventContext::getAddress() {
 asio::awaitable<json> EventContext::recvPacketQueueAsync() {
   auto buf = std::make_shared<std::vector<char>>(1024);
 
-  std::size_t recvBytes = co_await socket.async_read_some(asio::buffer(*buf),
-                                                          asio::use_awaitable);
+  std::size_t recvBytes =
+      co_await socket.async_read_some(asio::buffer(*buf), asio::use_awaitable);
   if (recvBytes < sizeof(int32_t)) {
     throw std::runtime_error("Incomplete length header");
   }

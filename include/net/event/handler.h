@@ -8,7 +8,7 @@ using namespace boost;
 namespace flux::net::event {
 
 class EventHandler {
-  void invokeEvent(EventContext& ec, PacketBase& packet);
+  asio::awaitable<void> invokeEvent(EventContext& ec, PacketBase& packet);
  public:
   asio::awaitable<void> handle(EventContext ec);
 };

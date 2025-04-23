@@ -9,8 +9,17 @@ using namespace boost;
 
 namespace flux::net::event {
 
-void EventHandler::invokeEvent(EventContext& ec, PacketBase& packet) {
+asio::awaitable<void> EventHandler::invokeEvent(EventContext& ec, PacketBase& packet) {
   std::println("Received packet {} from client from {}", packet.getID(), ec.getAddress().to_string());
+  if(packet.getID() == "VChk") {
+    nlohmann::json j = {
+      {"ID", "VChk"},
+      {"VN", 103}
+    };
+    co_await ec.sendPacketAsync(PacketBase(j));
+  } else {
+    std::println("{}", packet.getData().dump(2));
+  }
 }
 
 asio::awaitable<void> EventHandler::handle(EventContext ec) {
@@ -20,7 +29,7 @@ asio::awaitable<void> EventHandler::handle(EventContext ec) {
       PacketQueue queue(queueData);
 
       for (auto& packet : queue) {
-        invokeEvent(ec, packet);
+        co_await invokeEvent(ec, packet);
       }
     }
   } catch (const boost::system::system_error& e) {
