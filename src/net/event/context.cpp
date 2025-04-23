@@ -12,7 +12,7 @@ namespace flux::net::event {
 
 EventContext::EventContext(asio::ip::tcp::socket socket)
     : socket(std::move(socket)) {
-  // Init player from connection (somehow)
+  // TODO: Init player from connection (somehow)
   std::println("Initialized EventContext with client {}",
                this->socket.remote_endpoint().address().to_string());
 }
@@ -23,7 +23,6 @@ asio::awaitable<void> EventContext::sendPacketAsync(const PacketBase& packet) {
     auto buf = std::make_shared<std::vector<uint8_t>>(data.size());
     std::memcpy(buf->data(), data.data(), data.size());
 
-    // Асинхронная запись в сокет
     co_await asio::async_write(socket, asio::buffer(*buf), asio::use_awaitable);
   } catch (const std::exception& e) {
     std::println("Error in sendPacketAsync: {}", e.what());

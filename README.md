@@ -1,9 +1,9 @@
 # Flux
 
-Inspired by zKevz  
+Inspired by zKevz's [Pixel-Worlds-Server](https://github.com/zKevz/Pixel-Worlds-Server).
 
-I hate myself so much so I decided to make a server for dead MMO Sandbox and use C++ for that uneasy task.  
-God bless my soul... And you can support me tho, see [Support](#support).
+I hate myself so much, so I decided to make a server for the dead MMO Sandbox and use C++ for that uneasy task.  
+God bless my soul... And you can support me, see [Support](#support).
 
 ## Build steps
 
@@ -21,7 +21,7 @@ sudo apt install libboost-system-dev libboost-log-dev libboost-coroutine-dev lib
 sudo apt install libboost-all-dev
 ```
 
-Instead if you care and don't want to have the full version of libboost on your disk
+Instead, if you care and don't want to have the full version of libboost on your disk
 
 ```shell
 sudo apt install libboost-system-dev libboost-log-dev libboost-coroutine-dev libboost-stacktrace-dev 
@@ -41,7 +41,7 @@ sudo apt install nlohmann-json3-dev
 
 ### Optional: Install doxygen
 
-Would be useful if you planning a contribution to the project... Or if you wanna know ~~wtf is a kilometer~~ how fucked up the source code is.
+It would be useful if you are planning a contribution to the project... Or if you wanna to know ~~wtf is a kilometer~~ how fucked up the source code is. (Not documented yet)
 
 ```shell
 sudo apt install doxygen
@@ -55,7 +55,7 @@ Make the build folder
 mkdir build && cd build
 ```
 
-Use cmake to put everything together
+Use CMake to put everything together
 
 ```shell
 cmake ..
@@ -67,13 +67,13 @@ Build the server
 make
 ```
 
-Or if your Pentium have several cores:
+Or if your Pentium has several cores:
 
 ```shell
 make -j$(nproc)
 ```
 
-Once you finished, you can install the server
+Once you're finished, you can install the server
 
 ```shell
 echo "I haven't implemented that yet!"
