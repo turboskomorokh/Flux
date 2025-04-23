@@ -1,9 +1,12 @@
 #include <net/tcp_server.h>
 #include <boost/asio.hpp>
 
+using namespace nlohmann;
+using namespace boost;
+using namespace flux;
 int main() {
-  boost::asio::io_context context;
-  flux::net::event::EventHandler eh;
-  flux::TcpServer server(context, eh);
+  asio::io_context context;
+  net::event::EventHandler eh;
+  net::TcpServer server(context, eh);
   context.run();
 }

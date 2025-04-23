@@ -2,22 +2,15 @@
 
 #include <net/event/context.h>
 #include <nlohmann/json.hpp>
-#include <print>
 
 using namespace boost;
 
 namespace flux::net::event {
+
 class EventHandler {
+  void invokeEvent(EventContext& ec, PacketBase& packet);
  public:
-  asio::awaitable<void> handle(EventContext ec) {
-    try {
-      for (;;) {
-        nlohmann::json queue = co_await ec.recvPacketQueueAsync();
-        std::print("{}\n", queue.dump(2));
-      }
-    } catch (const std::exception& e) {
-      std::print("Connection closed or error: {}\n", e.what());
-    }
-  }
+  asio::awaitable<void> handle(EventContext ec);
 };
+
 } // namespace flux::net::event
